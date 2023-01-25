@@ -3,4 +3,6 @@
  "sonarr":{"url":"http://HOST:PORT/URL_BASE/",
            "key":"key"},
  "sabnzbd":{"url":"http://HOST:PORT/URL_BASE/api",
-            "key":"key"}}
+            "key":"key"},
+ "days_to_check":2,
+ "episodes_to_check":5}

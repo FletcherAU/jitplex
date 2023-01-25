@@ -48,7 +48,7 @@ def check_future(play):
         for ep in files[season]:
             if season == play["season"] and ep == play["episode"]:
                 care = int(i)
-            elif care and care+5 >= i:
+            elif care and care+config["episodes_to_check"] >= i:
                 e = files[season][ep]
                 file_string = format_play({"title":play["title"],"season":season,"episode":ep})
                 # Check if file already exists
@@ -121,7 +121,7 @@ if len(s_raw) != len(series):
 logging.info("Getting play data from Tautulli")
 params = {"apikey":config["tautulli"]["key"],
           "cmd":"get_history",
-          "after":datetime.strftime(datetime.now() - timedelta(2), '%Y-%m-%d'),
+          "after":datetime.strftime(datetime.now() - timedelta(config["days_to_check"]), '%Y-%m-%d'),
           "media_type":"episode",
           "length": 1000}
 r = requests.get(config["tautulli"]["url"],params = params)
