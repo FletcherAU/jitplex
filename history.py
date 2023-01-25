@@ -96,7 +96,15 @@ def force_episode(id):
 def format_play(play):
     return f'{play["title"]} - S{str(play["season"]).zfill(2)}E{str(play["episode"]).zfill(2)}'
 
-logging.basicConfig(format='%(levelname)s:%(message)s', level=logging.INFO)
+level = logging.WARNING
+if len(sys.argv) > 1:
+    levels = {"-v":logging.INFO,"-vv":logging.DEBUG}
+    if sys.argv[1] in levels:
+        level = levels[sys.argv[1]]
+    else:
+        print(f'history.py [{"|".join(levels.keys())}]')
+        sys.exit(1)
+logging.basicConfig(format='%(levelname)s:%(message)s', level=level)
 
 logging.info("Loading config from config.json")
 with open("config.json","r") as f:
