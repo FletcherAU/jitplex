@@ -45,6 +45,8 @@ def check_future(play):
     i = 1
     care = False
     for season in files:
+        if season == 0 and config["skip_specials"]:
+            continue
         for ep in files[season]:
             if season == play["season"] and ep == play["episode"]:
                 care = int(i)
