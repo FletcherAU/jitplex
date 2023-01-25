@@ -10,7 +10,7 @@ It specifically requires a setup that utilises:
 ## Installation
 
 * Clone the repo.
-* Run `pip install -r requirements.txt`.
+* Run `pip install -r requirements.txt`. Important: This installs code from a personal repo as a stopgap see notes below.
 * Copy `config.json.example` to `config.json` and updated values as below.
 * Run via cron.
 
@@ -28,5 +28,5 @@ Start with `-v` to see generally what the script is doing `-vv` if there's an is
 
 ## Notes
 
-* Due to an issues in [Pyarr](https://github.com/totaldebug/pyarr) this script won't set episodes as monitored if they aren't already. It'll raise a warning instead for now. (Sonarr changed the way a specific API works, Pyarr [fixed the issue](https://github.com/totaldebug/pyarr/issues/108) but hasn't backported the fix to the currently stable version - 3.1.3)
-* The script queries Sonarr for all series when first running. On larger setups this can take 10+s. Timing of this query is included in `-vv`.
+* When Sonarr shifted to a new API version the [Pyarr](https://github.com/totaldebug/pyarr) implementation was [updated](https://github.com/totaldebug/pyarr/issues/108) to match. Unfortunately due to unrelated issues the versions of Pyarr that includes this update have been yanked on PyPI. Until the issue is resolved upstream I've backported [the fix](https://github.com/totaldebug/pyarr/compare/v3.1.3...FletcherAU:pyarr:backport-upd_episode) on a [personal repo](https://github.com/FletcherAU/pyarr/tree/backport-upd_episode). This is the version of Pyarr set out in `requirements.txt` for now.
+* The script queries Sonarr for all series when first running. On larger setups this can take a few seconds. Timing of this query is included in `-vv` to help inform run frequency decisions.

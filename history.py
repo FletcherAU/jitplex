@@ -60,9 +60,8 @@ def check_future(play):
                     logging.info(f'{file_string} not on disk')
                     if not e["monitored"]:
                         logging.debug(f'{file_string} not monitored')
-                        #sonarr.upd_episode(id_=e["id"], data={"monitored": True})
+                        sonarr.upd_episode(id_=e["id"], data={"monitored": True})
                         logging.info(f'{file_string} has been set to monitored')
-                        logging.warning(f'{file_string} Episode has not actually been set to monitored due to pyarr v3/v4 issues')
                     if get_queue(e["id"]):
                         logging.info(f'{file_string} already queued')
                         to_jump.append(e["id"])
