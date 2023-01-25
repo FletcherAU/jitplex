@@ -42,13 +42,13 @@ def check_future(play):
     files = get_episodes(play["title"])
     
     # iterate over episodes until we get to the one we care about, start checking/reporting
-    i = 0
+    i = 1
     care = False
     for season in files:
         for ep in files[season]:
             if season == play["season"] and ep == play["episode"]:
                 care = int(i)
-            elif care and care+config["episodes_to_check"] >= i:
+            if care and care+config["episodes_to_check"] >= i:
                 e = files[season][ep]
                 file_string = format_play({"title":play["title"],"season":season,"episode":ep})
                 # Check if file already exists
