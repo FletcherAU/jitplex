@@ -24,3 +24,8 @@ It specifically requires a setup that utilises:
 ## Running
 
 Start with `-v` to see generally what the script is doing `-vv` if there's an issue. Issues that require your attention will be raised as `WARNING`
+
+## Notes
+
+* Due to an issues in [Pyarr](https://github.com/totaldebug/pyarr) this script won't set episodes as monitored if they aren't already. It'll raise a warning instead for now. (Sonarr changed the way a specific API works, Pyarr [fixed the issue](https://github.com/totaldebug/pyarr/issues/108) but hasn't backported the fix to the currently stable version - 3.1.3)
+* The script queries Sonarr for all series when first running. On larger setups this can take 10+s. Timing of this query is included in `-vv`.
