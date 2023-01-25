@@ -76,6 +76,7 @@ def check_future(play):
 def queue_episode(id):
     if id in already_searched:
         logging.debug(f'{id} requested multiple times, ignored.')
+        return False
     already_searched.append(id)
     releases = sonarr.get_releases(id_=id)
     for release in releases:
