@@ -10,7 +10,7 @@ It specifically requires a setup that utilises:
 ## Installation
 
 * Clone the repo.
-* Run `pip install -r requirements.txt`. Important: This installs code from a personal repo as a stopgap see notes below.
+* Run `pip install -r requirements.txt`. Important: **This installs code from a personal repo** as a _stopgap_. See notes below for details.
 * Copy `config.json.example` to `config.json` and updated values as below.
 * Run via cron.
 
