@@ -81,6 +81,7 @@ def queue_episode(id):
     for release in releases:
         if not release["rejected"] and release["protocol"] == "usenet":
             logging.debug(f'Sending {release["infoUrl"]} to the queue')
+            notify(subject="Release added to queue, just in time?", body=f'{release["infoUrl"]}')
             sonarr.download_release(guid = release["guid"], indexer_id = release["indexerId"])
             to_jump.append(id)
             return True
@@ -97,6 +98,22 @@ def force_episode(id):
 
 def format_play(play):
     return f'{play["title"]} - S{str(play["season"]).zfill(2)}E{str(play["episode"]).zfill(2)}'
+
+def notify(subject, body):
+    if "notifier" in config["tautulli"]:
+        n = config["tautulli"]["notifier"]
+        if type(n) != int:
+            logging.warning("Tautulli notification agent set incorrectly. Fix or remove the 'notifier' entry")
+            return False
+        params = {"apikey":config["tautulli"]["key"],
+                  "cmd": "notify",
+                  "notifier_id": n,
+                  "subject": subject,
+                  "body": body}
+        r = requests.get(config["tautulli"]["url"],params = params)
+        if r.status_code == 200:
+            return True
+        return False
 
 level = logging.WARNING
 if len(sys.argv) > 1:

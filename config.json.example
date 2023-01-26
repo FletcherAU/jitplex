@@ -1,5 +1,6 @@
 {"tautulli":{"url":"http://HOST:PORT/URL_BASE/api/v2",
-             "key":"key"},
+             "key":"key",
+             "notifier":-1},
  "sonarr":{"url":"http://HOST:PORT/URL_BASE/",
            "key":"key"},
  "sabnzbd":{"url":"http://HOST:PORT/URL_BASE/api",
