@@ -44,6 +44,7 @@ def check_future(play):
     # iterate over episodes until we get to the one we care about, start checking/reporting
     i = 1
     care = False
+    queued_runtime = 0
     for season in files:
         if season == 0 and config["skip_specials"]:
             continue
@@ -51,12 +52,13 @@ def check_future(play):
             if season == play["season"] and ep == play["episode"]:
                 care = int(i)
                 continue
-            if care and care+config["episodes_to_check"] >= i:
+            if care and (care+config["episodes_to_check"] >= i or (queued_runtime < config["exec_frequency"] and care+config["episodes_to_check"]+config["check_overflow"] >= i)):
                 e = files[season][ep]
                 file_string = format_play({"title":play["title"],"season":season,"episode":ep})
                 # Check if file already exists
                 if e["hasFile"]:
                     logging.debug(f'{file_string} already on disk')
+                    queued_runtime += runtimes[str(e["seriesId"])]
                 elif (datetime.now()-datetime.strptime(e["airDate"],'%Y-%m-%d')).days > 0:
                     logging.info(f'{file_string} not on disk')
                     if not e["monitored"]:
@@ -67,11 +69,14 @@ def check_future(play):
                         logging.info(f'{file_string} already queued')
                         to_jump.append(e["id"])
                         to_notify.append(q)
+                        queued_runtime += runtimes[str(e["seriesId"])]
                     else:
                         logging.debug(f'{file_string} Queued for search')
                         to_search.append(e["id"])
+                        queued_runtime += runtimes[str(e["seriesId"])]
                 else:
                     logging.debug(f'{file_string} hasn\'t aired yet')
+                logging.debug(f'Runtime goal: {queued_runtime}/{config["exec_frequency"]}')
             i += 1
 
 def queue_episode(id):

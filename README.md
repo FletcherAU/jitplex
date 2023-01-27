@@ -23,7 +23,9 @@ It specifically requires a setup that utilises:
 * Use `notifier` to specify a Tautulli notification agent if you want to send notifications via Tautulli when an episode is queued. Remove this entry if you don't want to send notifications.
 * Set `days_to_check` to the number of days of viewing history you'd like to process. 2 is a safe number if you're running the script once a day.
 * Set `episodes_to_check` to how many future episodes should be checked/downloaded. eg. If set to 3 and S01E01 is played then episodes 2, 3, and 4 will be checked. This number is entirely going to depend on your plex activity, download speed etc.
+* Set `check_overflow` to how many extra episodes on top of `episodes_to_check` can be checked if the currently queued episodes would run out before the next script execution.
 * Set `skip_specials` to either `true` or `false` depending on whether they should be considered. This can be advantageous if the coverage or accuracy of specials on your provider is subpar.
+* Set `exec_frequency` to how often (in minutes) the script is going to run. This is used alongside `check_overflow` to check extra episodes if the currently queued episodes would be watched before the next script execution.
 
 ## Running
 
