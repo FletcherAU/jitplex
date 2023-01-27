@@ -297,15 +297,19 @@ if "notifier" in config["tautulli"] and to_notify:
                 continue
         if ep["series"]["title"] not in queued:
             queued[ep["series"]["title"]] = []
-        queued[ep["series"]["title"]].append((ep["episode"]["seasonNumber"],ep["episode"]["episodeNumber"]))
+        queued[ep["series"]["title"]].append((ep["episode"]["seasonNumber"],ep["episode"]["episodeNumber"],ep["size"]))
+        pprint(ep)
     
     # Format message body
     message = []
+    total = 0
     for show in queued:
         message.append(f'{show} - ')
         for e in queued[show]:
-            message[-1] += f'S{str(e[0]).zfill(2)}E{str(e[1]).zfill(2)}, '
+            message[-1] += f'S{str(e[0]).zfill(2)}E{str(e[1]).zfill(2)} ({int(e[2]/1049000):,} MiB), ' # Queue sizes are given in bytes but displayed as MiB
+            total += e[2]
         message[-1] = message[-1][:-2]
+    message.append(f'Total size: {int(total/1049000):,} MiB')
     message = "\n".join(message)
     # Send message
     if message:
