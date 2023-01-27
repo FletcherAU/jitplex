@@ -257,7 +257,7 @@ for episode in list(dict.fromkeys(to_search)):
 
 new = 0
 for episode in already_searched:
-    if episode not in search_cache:
+    if str(episode) not in search_cache:
         new += 1
         search_cache[episode] = time.time()
 with open("search_cache.json","w") as f:
