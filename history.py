@@ -75,9 +75,6 @@ def check_future(play):
             i += 1
 
 def queue_episode(id):
-    if id in already_searched:
-        logging.debug(f'{id} requested multiple times, ignored.')
-        return False
     already_searched.append(id)
     releases = sonarr.get_releases(id_=id)
     for release in releases:
@@ -160,7 +157,7 @@ sonarr = pyarr.sonarr.SonarrAPI(host_url=config["sonarr"]["url"], api_key=config
 
 fetch = False
 try:
-    with open("cache.json","r") as f:
+    with open("series_cache.json","r") as f:
         try:
             data = json.load(f)
         except json.decoder.JSONDecodeError:
@@ -189,8 +186,27 @@ else:
     logging.debug(f'Processed into {len(series)} series')
     if len(s_raw) != len(series):
         logging.error("Sonarr series count and processed series count do not match")
-    with open("cache.json","w") as f:
+    with open("series_cache.json","w") as f:
         json.dump({"cached":time.time(),"data":series},f)
+
+# Get search cache
+already_searched = []
+search_cache = {}
+try:
+    with open("search_cache.json","r") as f:
+        try:
+            search_cache = json.load(f)
+        except json.decoder.JSONDecodeError:
+            logging.error("search_cache.json is not a valid JSON file and will be replaced.")
+        r = 0
+        for episode in search_cache:
+            if search_cache[episode] > time.time() - 3600*config["search_cache"]:
+                already_searched.append(episode)
+            else:
+                r += 1
+        logging.info(f'{len(already_searched)} items loaded from the search cache and {r} discarded because they are at least {config["search_cache"]} hours old')
+except FileNotFoundError:
+    logging.debug("No series_cache.json found")
 
 # Get episode plays in the last day (ish)
 logging.info("Getting play data from Tautulli")
@@ -210,7 +226,6 @@ logging.debug(f'Got {len(plays)} plays')
 
 # Set up queues
 to_jump = []
-already_searched = []
 to_monitor = []
 to_search = []
 to_notify = []
@@ -230,7 +245,22 @@ for episode in list(dict.fromkeys(to_monitor)):
 # Search for missing episodes. Deduped because an episode can be flagged for downloading multiple times.
 logging.debug(f'Searching for {len(to_search)} episodes')
 for episode in list(dict.fromkeys(to_search)):
-    queue_episode(episode)
+    if episode not in already_searched:
+        queue_episode(episode)
+        already_searched.append(episode)
+    else:
+        logging.debug(f'{episode} has been searched for within {config["search_cache"]} and has been skipped.')
+
+# Add new items to search cache and dump to file
+
+new = 0
+for episode in already_searched:
+    if episode not in search_cache:
+        new += 1
+        search_cache[episode] = time.time()
+with open("search_cache.json","w") as f:
+    json.dump(dict(search_cache), f)
+logging.debug(f'{new}/{len(search_cache)} new items added to the search cache and dumped to search_cache.json')
 
 logging.debug("Refreshing queue within Sonarr")
 sonarr.post_command(name="RefreshMonitoredDownloads")

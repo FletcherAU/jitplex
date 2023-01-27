@@ -8,4 +8,5 @@
             "key":"key"},
  "days_to_check":2,
  "episodes_to_check":5,
- "skip_specials": true}
+ "skip_specials": true,
+ "search_cache":48}
