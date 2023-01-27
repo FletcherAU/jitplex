@@ -174,7 +174,8 @@ except FileNotFoundError:
     fetch = True
 
 if fetch == False:
-    series = data["data"]
+    series = data["ids"]
+    runtimes = data["runtimes"]
 else:
     # Get existing show data
     logging.info("Getting series IDs from Sonarr")
@@ -183,13 +184,15 @@ else:
     logging.debug(f'Got {len(s_raw)} series in {round(time.time() - q_time,2)}s')
     logging.info("Processing series from Sonarr")
     series = {}
+    runtimes = {}
     for s in s_raw:
         series[s["title"]] = s["id"]
+        runtimes[s["id"]] = s["runtime"]
     logging.debug(f'Processed into {len(series)} series')
     if len(s_raw) != len(series):
         logging.error("Sonarr series count and processed series count do not match")
     with open("series_cache.json","w") as f:
-        json.dump({"cached":time.time(),"data":series},f)
+        json.dump({"cached":time.time(),"ids":series,"runtimes":runtimes},f)
 
 # Get search cache
 already_searched = []
