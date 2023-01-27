@@ -2,6 +2,8 @@
 
 This script attempts to download episodes that are likely going to be watched by plex users in the near future.
 
+## Requirements
+
 It specifically requires a setup that utilises:
 * [Tautulli](https://github.com/Tautulli/Tautulli) to get watch history and (optionally) send notifications
 * [Sonarr](https://github.com/Sonarr/Sonarr) to manage episode files/indexers
@@ -29,7 +31,7 @@ It specifically requires a setup that utilises:
 
 ## Running
 
-Start with `-v` to see generally what the script is doing `-vv` if there's an issue. Issues that require your attention will be raised as `WARNING`
+Start with `-v` to see generally what the script is doing `-vv` if there's an issue. Issues that require your attention will be raised as `WARNING+`
 
 ## Notes
 
