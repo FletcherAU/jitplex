@@ -81,7 +81,7 @@ def queue_episode(id):
     for release in releases:
         if not release["rejected"] and release["protocol"] == "usenet":
             logging.debug(f'Sending {release["infoUrl"]} to the queue')
-            notify(subject="Release added to queue, just in time?", body=f'{release["title"]}')
+            notify(subject="Release added to queue based on user activity", body=f'{release["title"]}')
             sonarr.download_release(guid = release["guid"], indexer_id = release["indexerId"])
             to_jump.append(id)
             return True
