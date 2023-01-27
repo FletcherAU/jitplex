@@ -228,7 +228,6 @@ for play in r.json()["response"]["data"]["data"]:
     if h not in hashes:
         plays.append(p)
         hashes.append(h)
-pprint(hashes)
 hashes = None
 logging.debug(f'Got {len(plays)} plays')
 
