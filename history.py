@@ -298,7 +298,6 @@ if "notifier" in config["tautulli"] and to_notify:
         if ep["series"]["title"] not in queued:
             queued[ep["series"]["title"]] = []
         queued[ep["series"]["title"]].append((ep["episode"]["seasonNumber"],ep["episode"]["episodeNumber"],ep["size"]))
-        pprint(ep)
     
     # Format message body
     message = []
