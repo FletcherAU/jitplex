@@ -167,7 +167,7 @@ try:
             logging.error("cache.json is not a valid JSON file and will be replaced.")
             data = {"cached": 0, "data": {}}
             fetch = True
-        if data["cached"] < time.time() - 21600:
+        if data["cached"] < time.time() - 3600*config["sonarr"]["cache_time"]:
             logging.debug("Cache is older than six hours, will be refreshed.")
             fetch = True
 except FileNotFoundError:
