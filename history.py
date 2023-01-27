@@ -219,11 +219,17 @@ params = {"apikey":config["tautulli"]["key"],
           "length": 1000}
 r = requests.get(config["tautulli"]["url"],params = params)
 plays = []
+hashes = []
 for play in r.json()["response"]["data"]["data"]:
     p = {"title": play["grandparent_title"],
          "season": play["parent_media_index"],
          "episode": play["media_index"]}
-    plays.append(p)
+    h = hash(json.dumps(p, sort_keys=True).encode())
+    if h not in hashes:
+        plays.append(p)
+        hashes.append(h)
+pprint(hashes)
+hashes = None
 logging.debug(f'Got {len(plays)} plays')
 
 # Set up queues
