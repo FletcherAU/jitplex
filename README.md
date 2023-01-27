@@ -19,6 +19,7 @@ It specifically requires a setup that utilises:
 * Exclude `URL_BASE` from Tautulli/Sonarr/SABnzbd if not used.
 * Set API keys as appropriate.
 * Use `cache_time` within `sonarr` to set how long series IDs will be cached. Default is 6 hours.
+* Use `search_cache` to specify how often a file can be searched for across executions. This does not affect SABnzbd queue adjustment.
 * Use `notifier` to specify a Tautulli notification agent if you want to send notifications via Tautulli when an episode is queued. Remove this entry if you don't want to send notifications.
 * Set `days_to_check` to the number of days of viewing history you'd like to process. 2 is a safe number if you're running the script once a day.
 * Set `episodes_to_check` to how many future episodes should be checked/downloaded. eg. If set to 3 and S01E01 is played then episodes 2, 3, and 4 will be checked. This number is entirely going to depend on your plex activity, download speed etc.
