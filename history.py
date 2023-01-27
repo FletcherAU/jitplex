@@ -120,9 +120,11 @@ def notify(subject, body):
 
 def monitor(id):
     logging.debug(f'Monitoring {id}')
-    sonarr.upd_episode(id_=id, data={"monitored": True})
-    # Should probably check if this was successful
-    return True
+    e = sonarr.upd_episode(id_=id, data={"monitored": True})
+    if e["monitored"]:
+        return True
+    else:
+        logging.error(f'Could not set {id} as monitored in Sonarr')
 
 def get_download_id(episode):
     q = get_queue(episode)
