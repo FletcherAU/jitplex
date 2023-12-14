@@ -59,7 +59,7 @@ def check_future(play):
                 if e["hasFile"]:
                     logging.debug(f'{file_string} already on disk')
                     queued_runtime += runtimes[str(e["seriesId"])]
-                elif (datetime.now()-datetime.strptime(e["airDate"],'%Y-%m-%d')).days > 0:
+                elif (datetime.now()-datetime.strptime(e.get("airDate","2100-01-01"),'%Y-%m-%d')).days > 0:
                     logging.info(f'{file_string} not on disk')
                     if not e["monitored"]:
                         logging.debug(f'{file_string} not monitored, queued for monitoring')
