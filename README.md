@@ -5,6 +5,7 @@ This script attempts to download episodes that are likely going to be watched by
 ## Requirements
 
 It specifically requires a setup that utilises:
+
 * [Tautulli](https://github.com/Tautulli/Tautulli) to get watch history and (optionally) send notifications
 * [Sonarr](https://github.com/Sonarr/Sonarr) to manage episode files/indexers (v4)
 * [SABnzbd](https://github.com/sabnzbd/sabnzbd) to manage downloads
