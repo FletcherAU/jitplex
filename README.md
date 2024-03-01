@@ -6,7 +6,7 @@ This script attempts to download episodes that are likely going to be watched by
 
 It specifically requires a setup that utilises:
 * [Tautulli](https://github.com/Tautulli/Tautulli) to get watch history and (optionally) send notifications
-* [Sonarr](https://github.com/Sonarr/Sonarr) to manage episode files/indexers
+* [Sonarr](https://github.com/Sonarr/Sonarr) to manage episode files/indexers (v4)
 * [SABnzbd](https://github.com/sabnzbd/sabnzbd) to manage downloads
 
 ## Installation
@@ -35,5 +35,4 @@ Start with `-v` to see generally what the script is doing `-vv` if there's an is
 
 ## Notes
 
-* When Sonarr shifted to a new API version the [Pyarr](https://github.com/totaldebug/pyarr) implementation was [updated](https://github.com/totaldebug/pyarr/issues/108) to match. Unfortunately due to unrelated issues the versions of Pyarr that includes this update have been yanked on PyPI. Until the issue is resolved upstream I've backported [the fix](https://github.com/totaldebug/pyarr/compare/v3.1.3...FletcherAU:pyarr:backport-upd_episode) on a [personal repo](https://github.com/FletcherAU/pyarr/tree/backport-upd_episode). This is the version of Pyarr set out in `requirements.txt` for now.
 * The script queries Sonarr for all series when first running. On larger setups this can take a few seconds. Timing of this query is included in `-vv` to help inform run frequency and cache decisions.

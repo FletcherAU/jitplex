@@ -1,2 +1,2 @@
-git+https://github.com/FletcherAU/pyarr.git@backport-upd_episode
+pyarr
 requests
