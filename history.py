@@ -72,7 +72,13 @@ def check_future(play):
                 # Check if file already exists
                 if e["hasFile"]:
                     logging.debug(f"{file_string} already on disk")
-                    queued_runtime += runtimes[str(e["seriesId"])]
+                    try:
+                        queued_runtime += runtimes[str(e["seriesId"])]
+                    except KeyError:
+                        logging.error(
+                            f"Series ID {e['seriesId']} not found in runtimes"
+                        )
+                        queued_runtime += 15
                 elif (
                     datetime.now()
                     - datetime.strptime(e.get("airDate", "2100-01-01"), "%Y-%m-%d")
@@ -355,15 +361,19 @@ if "notifier" in config["tautulli"] and to_notify:
     queued = {}
     for ep in to_notify:
         if type(ep) != dict:
-            q_e = get_queue(ep)
+            q_e = sonarr.get_episode(id_=ep)
             if q_e:
                 ep = q_e
             else:
                 continue
+        if "series" not in ep:
+            size = ep["size"]
+            ep = sonarr.get_episode(id_=ep["episodeId"])
+            ep["size"] = size
         if ep["series"]["title"] not in queued:
             queued[ep["series"]["title"]] = []
         queued[ep["series"]["title"]].append(
-            (ep["episode"]["seasonNumber"], ep["episode"]["episodeNumber"], ep["size"])
+            (ep["seasonNumber"], ep["episodeNumber"], ep["size"])
         )
 
     # Format message body
