@@ -373,7 +373,7 @@ if "notifier" in config["tautulli"] and to_notify:
         if ep["series"]["title"] not in queued:
             queued[ep["series"]["title"]] = []
         queued[ep["series"]["title"]].append(
-            (ep["seasonNumber"], ep["episodeNumber"], ep["size"])
+            (ep["seasonNumber"], ep["episodeNumber"], ep.get("size", 1024))
         )
 
     # Format message body
@@ -396,4 +396,6 @@ if "notifier" in config["tautulli"] and to_notify:
     # Send message
     if message:
         notify(subject="Items have been queued based on user activity", body=message)
-sys.exit()
+
+if config.get("uptime_url"):
+    requests.get(config["uptime_url"])

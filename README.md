@@ -29,6 +29,7 @@ It specifically requires a setup that utilises:
 * Set `check_overflow` to how many extra episodes on top of `episodes_to_check` can be checked if the currently queued episodes would run out before the next script execution.
 * Set `skip_specials` to either `true` or `false` depending on whether they should be considered. This can be advantageous if the coverage or accuracy of specials on your provider is subpar.
 * Set `exec_frequency` to how often (in minutes) the script is going to run. This is used alongside `check_overflow` to check extra episodes if the currently queued episodes would be watched before the next script execution.
+* Set `uptime_url` to report successful script executions to a push based uptime monitoring service like Healthcheacks.io or Uptime Kuma.
 
 ## Running
 

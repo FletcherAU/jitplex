@@ -11,4 +11,5 @@
  "skip_specials": true,
  "search_cache":48,
  "exec_frequency":60,
- "check_overflow":3}
+ "check_overflow":3,
+ "uptime_url":http://example.com/uptime/abcd}
